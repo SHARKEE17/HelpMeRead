@@ -1,0 +1,225 @@
+/* DataTable - CSS Modules approach (standard CSS with BEMish naming) */
+
+:root {
+    --dt-primary: #1a73e8;
+    --dt-border: #e0e0e0;
+    --dt-bg-header: #f8f9fa;
+    --dt-bg-hover: #f1f3f4;
+    --dt-bg-selected: #e8f0fe;
+    --dt-text-primary: #202124;
+    --dt-text-secondary: #5f6368;
+    --dt-font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    --dt-radius: 8px;
+    --dt-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+}
+
+.dt-container {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--dt-border);
+    border-radius: var(--dt-radius);
+    background: white;
+    overflow: hidden;
+    font-family: var(--dt-font-family);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+/* Toolbar */
+.dt-toolbar {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--dt-border);
+}
+
+.dt-search {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--dt-border);
+    border-radius: 4px;
+    font-size: 0.875rem;
+    width: 100%;
+    max-width: 300px;
+}
+
+/* Table Wrapper */
+.dt-table-wrapper {
+    overflow-x: auto;
+    position: relative;
+    max-height: 600px;
+    /* Or configurable */
+}
+
+.dt-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    min-width: 600px;
+    /* Ensure horizontal scroll on small screens */
+}
+
+/* Header */
+.dt-thead {
+    background: var(--dt-bg-header);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.dt-th {
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    color: var(--dt-text-secondary);
+    border-bottom: 1px solid var(--dt-border);
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+    transition: background 0.2s;
+}
+
+.dt-th:hover {
+    background: #e8eaed;
+}
+
+.dt-th-content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.dt-sort-icon {
+    font-size: 0.75rem;
+    opacity: 0.5;
+}
+
+.dt-th[aria-sort="ascending"] .dt-sort-icon,
+.dt-th[aria-sort="descending"] .dt-sort-icon {
+    opacity: 1;
+    color: var(--dt-primary);
+}
+
+/* Body */
+.dt-tbody {
+    background: white;
+}
+
+.dt-row {
+    border-bottom: 1px solid var(--dt-border);
+    transition: background 0.2s;
+}
+
+.dt-row:last-child {
+    border-bottom: none;
+}
+
+.dt-row:hover {
+    background: var(--dt-bg-hover);
+}
+
+.dt-row[aria-selected="true"] {
+    background: var(--dt-bg-selected);
+}
+
+.dt-cell {
+    padding: 0.75rem 1rem;
+    color: var(--dt-text-primary);
+    font-size: 0.875rem;
+}
+
+/* Pagination */
+.dt-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--dt-border);
+    gap: 1rem;
+    font-size: 0.875rem;
+    color: var(--dt-text-secondary);
+}
+
+.dt-btn {
+    padding: 0.25rem 0.5rem;
+    border: 1px solid var(--dt-border);
+    background: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.dt-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Checkbox */
+.dt-checkbox {
+    width: 1rem;
+    height: 1rem;
+    cursor: pointer;
+}
+
+/* Loading / Empty States */
+.dt-status-row {
+    text-align: center;
+    padding: 2rem;
+    color: var(--dt-text-secondary);
+}
+
+/* MOBILE RESPONSIVENESS (<768px) */
+@media (max-width: 768px) {
+
+    .dt-table,
+    .dt-thead,
+    .dt-tbody,
+    .dt-th,
+    .dt-td,
+    .dt-row {
+        display: block;
+    }
+
+    .dt-thead {
+        display: none;
+        /* Hide headers */
+    }
+
+    .dt-row {
+        border: 1px solid var(--dt-border);
+        margin-bottom: 0.5rem;
+        border-radius: 8px;
+        padding: 1rem;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    .dt-cell {
+        border: none;
+        position: relative;
+        padding-left: 50%;
+        margin-bottom: 0.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* Label via data-attribute */
+    .dt-cell::before {
+        content: attr(data-label);
+        font-weight: 600;
+        width: 45%;
+        color: var(--dt-text-secondary);
+        text-align: left;
+    }
+
+    /* Checkbox specific */
+    .dt-cell-select {
+        padding-left: 0;
+        justify-content: flex-start;
+    }
+
+    .dt-cell-select::before {
+        display: none;
+    }
+
+    .dt-table-wrapper {
+        max-height: none;
+    }
+}

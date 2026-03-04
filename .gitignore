@@ -1,0 +1,43 @@
+# Environment & secrets
+.env
+.env.*
+
+# Python
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.db
+
+# Django
+backend_django/media/
+backend_django/staticfiles/
+
+# Node
+node_modules/
+dist/
+dist-ssr/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Claude
+.claude/
+
+# Loki task queue
+.loki/
+
+# Misc
+*.local

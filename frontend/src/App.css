@@ -1,0 +1,9 @@
+/* App.css - Resetting constraints for full-width layout */
+.app {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+/* Retaining other useful resets or styles if needed, but clearing the restrictive .app styles */

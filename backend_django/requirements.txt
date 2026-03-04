@@ -1,0 +1,12 @@
+django
+djangorestframework
+django-cors-headers
+djangorestframework-camel-case
+python-dotenv
+sarvamai
+google-generativeai
+google-genai
+markdown-it-py
+mdit-py-plugins
+beautifulsoup4
+PyMuPDF

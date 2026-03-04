@@ -1,0 +1,231 @@
+/* Kindle-Class Reader Typography & Layout */
+
+@import url('https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,600;1,7..72,400&family=JetBrains+Mono&display=swap');
+
+/* Core Layout System */
+.reader-container {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 56px;
+    padding-bottom: 80px;
+}
+
+@media (min-width: 768px) {
+    .reader-container {
+        max-width: 680px;
+        /* Tablet */
+        padding-left: 28px;
+        padding-right: 28px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .reader-container {
+        max-width: 720px;
+        /* Standard Desktop */
+    }
+}
+
+@media (min-width: 1400px) {
+    .reader-container {
+        max-width: 760px;
+        /* Large Screens */
+    }
+}
+
+/* Typography System */
+.reader-body {
+    font-family: "Literata", "Charter", "Iowan Old Style", "Georgia", serif;
+    font-size: 17px;
+    /* Mobile */
+    line-height: 1.7;
+    color: #1a1a1a;
+    font-weight: 400;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+}
+
+@media (min-width: 768px) {
+    .reader-body {
+        font-size: 19px;
+        /* Desktop */
+        line-height: 1.75;
+    }
+}
+
+/* Headings */
+.reader-h1 {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    /* UI Font for Title? Spec said UI font for UI, but usually Titles match body. User didn't specify Title Font specifically, just H1 specs. Let's assume matches body serif for book feel, or if they meant UI font. "H1: document title". "Font stack: Body font... UI font...". Usually Title is part of content = Body font. I will use Serif for H1 to match Book feel. */
+    font-family: "Literata", "Charter", "Georgia", serif;
+    font-size: 32px;
+    line-height: 1.25;
+    margin-top: 0;
+    margin-bottom: 32px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+@media (min-width: 768px) {
+    .reader-h1 {
+        font-size: 44px;
+    }
+}
+
+.reader-h2 {
+    font-family: "Literata", "Charter", "Georgia", serif;
+    font-size: 30px;
+    line-height: 1.35;
+    margin-top: 56px;
+    margin-bottom: 18px;
+    font-weight: 600;
+}
+
+.reader-h3 {
+    font-family: "Literata", "Charter", "Georgia", serif;
+    font-size: 24px;
+    line-height: 1.4;
+    margin-top: 36px;
+    margin-bottom: 14px;
+    font-weight: 600;
+}
+
+.reader-h4 {
+    font-family: "Literata", "Charter", "Georgia", serif;
+    font-size: 20px;
+    margin-top: 28px;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+/* Paragraphs */
+.reader-p {
+    margin-top: 18px;
+    margin-bottom: 18px;
+}
+
+/* Captions (Figure N:, Table N:) */
+.reader-caption {
+    margin-top: 8px;
+    margin-bottom: 24px;
+    font-size: 15px;
+    color: #6b7280;
+    font-style: italic;
+    text-align: center;
+}
+
+/* Lists */
+.reader-list {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-left: 26px;
+}
+
+.reader-li {
+    margin-bottom: 10px;
+}
+
+/* Block Math */
+.math-block {
+    margin-top: 36px;
+    margin-bottom: 36px;
+    text-align: center;
+    overflow-x: auto;
+}
+
+/* Tables */
+/* Tables */
+.reader-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 32px;
+    margin-bottom: 32px;
+    font-size: 16px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.reader-th {
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 2px solid #e5e7eb;
+    padding: 10px;
+}
+
+.reader-td {
+    border-bottom: 1px solid #e5e7eb;
+    padding: 10px;
+}
+
+/* Complex tables (multi-level headers / colspan / rowspan) — rendered as raw HTML */
+.reader-table-complex table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.reader-table-complex th,
+.reader-table-complex td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #e5e7eb;
+}
+
+.reader-table-complex th {
+    font-weight: 600;
+    background-color: #f9fafb;
+    border-bottom: 2px solid #d1d5db;
+}
+
+.reader-table-complex tbody tr:hover {
+    background-color: #f9fafb;
+}
+
+/* Links */
+.reader-a {
+    color: #2563eb;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.reader-a:hover {
+    text-decoration: none;
+}
+
+/* Blockquotes */
+.reader-blockquote {
+    border-left: 4px solid #e5e7eb;
+    padding-left: 16px;
+    margin-top: 24px;
+    margin-bottom: 24px;
+    color: #374151;
+    font-style: italic;
+}
+
+/* Code */
+.reader-code,
+code {
+    font-family: "SF Mono", "JetBrains Mono", monospace;
+    font-size: 16px;
+    background-color: #f3f4f6;
+    padding: 2px 4px;
+    border-radius: 4px;
+}
+
+.reader-pre {
+    padding: 16px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin-top: 24px;
+    margin-bottom: 24px;
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+}
+
+.reader-pre code {
+    background-color: transparent;
+    padding: 0;
+}

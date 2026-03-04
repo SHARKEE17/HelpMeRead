@@ -1,0 +1,47 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/jwt-decode": "^2.2.1",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@types/react-router-dom": "^5.3.3",
+    "@vitejs/plugin-react": "^4.7.0",
+    "@vitejs/plugin-react-swc": "^3.11.0",
+    "typescript": "^5.9.3",
+    "vite": "^6.4.1"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.3.7",
+    "@mui/material": "^7.3.7",
+    "@simplewebauthn/browser": "^13.2.2",
+    "@types/react-katex": "^3.0.4",
+    "@types/react-syntax-highlighter": "^15.5.13",
+    "axios": "^1.13.4",
+    "clsx": "^2.1.1",
+    "jwt-decode": "^4.0.0",
+    "katex": "^0.16.28",
+    "lucide-react": "^0.564.0",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "react-katex": "^3.1.0",
+    "react-markdown": "^10.1.0",
+    "react-router-dom": "^7.13.0",
+    "react-syntax-highlighter": "^16.1.0",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0",
+    "tailwind-merge": "^3.4.1"
+  }
+}
