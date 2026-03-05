@@ -1,95 +1,143 @@
-# HelpMeRead - Intelligent PDF Reader
+# HelpMeRead
 
-**Transform static PDFs into interactive, semantically rich web experiences.**
+A web app that turns PDFs into clean, readable web pages with AI-powered explanations.
 
-HelpMeRead is a next-generation PDF reader that goes beyond simple text extraction. It leverages advanced OCR and layout analysis (powered by Sarvam AI) to understand the *structure* of documents, preserving semantic meaning while offering a modern, distraction-free reading environment.
+Upload a PDF, and it gets converted into a structured, distraction-free reading experience — with correct reading order, preserved tables, math rendering, and a built-in "Simplify" feature that explains any selected text in plain language.
 
-## 🚀 Key Features
+## Features
 
-### 🧠 Semantic Document Understanding
-Unlike traditional readers that flatten text, HelpMeRead preserves the logical structure of your documents:
-*   **Recursive Semantic Parsing**: Correctly identifies and identifies nested structures like lists within lists and blockquotes.
-*   **Rich Block Support**: Natively renders:
-    *   **Lists**: Ordered and unordered lists with proper indentation.
-    *   **Blockquotes**: Distinctively styled quotes.
-    *   **Captions**: Automatically detects figure and table captions (e.g., "Figure 1: Architecture").
-    *   **Metadata**: Identifies author, date, and affiliation blocks.
+- **PDF to Web Reader** — Upload any PDF and read it in a clean, single-column layout with proper typography.
+- **Correct Reading Order** — Uses coordinate-based extraction (PyMuPDF bounding boxes) to handle multi-column layouts, headers, footers, and complex page structures — the same approach used by MinerU, Docling, and Marker.
+- **Page-by-Page Processing** — Each page is sent individually to Gemini with spatial reading order hints, so content never gets jumbled.
+- **Table Support** — Complex tables with rowspan/colspan render correctly using HTML pass-through.
+- **Math Rendering** — Inline and display LaTeX via KaTeX.
+- **Simplify / ELI5** — Select any text and get a plain-language explanation powered by Gemini. No jargon, no fluff — like texting a smart friend.
+- **Text Highlighting** — Select and highlight text with persistence.
+- **Noise Removal** — Page numbers, running headers/footers, and boilerplate URLs are automatically stripped.
 
-### 🎨 Advanced Rendering Engine
-*   **Block-Based Architecture**: A custom React renderer that treats every element as a structured block, enabling granular interaction.
-*   **Mathematical Precision**: Full support for inline LaTeX math rendering using **KaTeX** (e.g., $E = mc^2$).
-*   **Complex Tables**: Handles tables with row-spans, col-spans, and unescaped special characters for perfect data presentation.
-*   **Smart Footnotes**: Automatically exacts footnotes, links them in the text, and displays them in a dedicated "References" section with clickable source links.
+## Tech Stack
 
-### ⚡ Interactive Reader
-*   **Distraction-Free Mode**: Clean, single-column layout with premium typography (Google Fonts: Inter, Roboto Serif).
-*   **Text Highlighting**: Select and highlight text with persistence.
-*   **Contextual explanations**: (Coming soon) AI-powered definitions for complex terms.
+| Layer | Technology |
+|-------|-----------|
+| Frontend | React (TypeScript) + Vite |
+| UI | Material UI (MUI) |
+| Math | KaTeX via react-markdown + rehype-katex |
+| Backend | Django + Django REST Framework |
+| PDF Extraction | PyMuPDF (coordinate-based reading order) |
+| AI Processing | Google Gemini 2.5 Flash (PDF to Markdown) |
+| AI Explanations | Google Gemini 2.0 Flash (Simplify feature) |
+| Markdown Parsing | markdown-it-py + BeautifulSoup4 |
+| Fallback OCR | Sarvam AI Document Intelligence |
 
-## 🛠️ Technology Stack
+## How It Works
 
-### Frontend
-*   **Framework**: [React](https://reactjs.org/) (TypeScript) + [Vite](https://vitejs.dev/)
-*   **UI Library**: [Material UI (MUI)](https://mui.com/) v5
-*   **Math Rendering**: `react-katex` / `katex`
-*   **State Management**: React Hooks
+```
+PDF Upload
+    |
+    v
+PyMuPDF extracts text blocks with bounding boxes (x, y coordinates)
+    |
+    v
+Column detection + spatial sorting --> correct reading order
+    |
+    v
+Each page sent to Gemini with coordinate hints --> clean Markdown
+    |
+    v
+Post-processing: noise removal, table block separation
+    |
+    v
+Semantic Parser: Markdown --> structured JSON (sections, blocks)
+    |
+    v
+React renderer: headings, paragraphs, tables, math, lists, quotes
+```
 
-### Backend
-*   **Framework**: [Django](https://www.djangoproject.com/) (Python)
-*   **Parsing**: `markdown-it-py` with custom recursive descent parser.
-*   **OCR/Layout**: Sarvam AI Document Intelligence API.
-*   **HTML Processing**: `BeautifulSoup4` for table extraction.
-
-## 📦 Installation & Setup
+## Setup
 
 ### Prerequisites
-*   Node.js (v18+)
-*   Python (v3.10+)
-*   Sarvam AI API Key specified in `settings.py` or environment variables.
 
-### 1. Backend Setup (Django)
+- Python 3.10+
+- Node.js 18+
+- A [Gemini API key](https://aistudio.google.com/apikey) (free tier works)
+
+### 1. Backend
+
 ```bash
 cd backend_django
 python -m venv venv
-# Activate venv (Windows: venv\Scripts\activate, Mac/Linux: source venv/bin/activate)
+
+# Activate venv
+# Windows: venv\Scripts\activate
+# Mac/Linux: source venv/bin/activate
+
 pip install -r requirements.txt
+
+# Create .env from the example
+cp .env.example .env
+# Edit .env and add your API keys
+
 python manage.py migrate
 python manage.py runserver
 ```
-*Backend runs on `<BACKEND_URL>`*
 
-### 2. Frontend Setup (React/Vite)
+Backend runs on `http://localhost:8000`
+
+### 2. Frontend
+
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
-*Frontend runs on `<FRONTEND_URL>`*
 
-## 🏗️ Architecture
+Frontend runs on `http://localhost:3000`
 
-The system uses a **Block-Based JSON Schema** for document representation:
+### Environment Variables
 
-```json
-{
-  "type": "doc",
-  "content": [
-    {
-      "type": "heading",
-      "attrs": { "level": 1 },
-      "content": [{ "type": "text", "text": "Paper Title" }]
-    },
-    {
-      "type": "paragraph",
-      "content": [{ "type": "text", "text": "Paper abstract..." }]
-    },
-    {
-      "type": "figure",
-      "content": [ ... ] 
-    }
-  ],
-  "footnotes": [ ... ]
-}
+Copy `backend_django/.env.example` to `backend_django/.env` and fill in:
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `GEMINI_API_KEY` | Yes | Google Gemini API key |
+| `SARVAM_API_KEY` | No | Sarvam AI key (fallback processor) |
+| `DJANGO_SECRET_KEY` | No | Django secret key (auto-generated for dev) |
+
+## Project Structure
+
+```
+backend_django/
+  config/                      # Django settings, URLs
+  core/
+    models.py                  # Document, Highlight models
+    views.py                   # API endpoints
+    serializers.py             # DRF serializers
+    services/
+      gemini_processor.py      # Page-by-page Gemini processing
+      reading_order.py         # PyMuPDF coordinate extraction
+      semantic_parser.py       # Markdown to structured JSON
+      sarvam_reorder.py        # Sarvam output reordering (fallback)
+      llm.py                   # Simplify/ELI5 explanations
+      pdf.py                   # Processing pipeline orchestrator
+
+frontend/
+  src/
+    components/
+      Semantic/                # Document renderer (blocks, tables, math)
+      Dashboard.tsx            # Upload and document list
+      ReaderView.tsx           # Main reading interface
+      ProcessingView.tsx       # Upload progress
+      LandingPage.tsx          # Landing page
+    api/                       # API clients
 ```
 
-This schema allows for the frontend to render any content type deterministically while maintaining the ability to attach metadata (like highlights) to specific block IDs.
+## API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/documents/` | Upload a PDF |
+| GET | `/documents/` | List all documents |
+| GET | `/documents/{id}/` | Get document with processed content |
+| GET | `/documents/{id}/status/` | Poll processing status |
+| POST | `/explain/` | Get simplified explanation of selected text |
+| CRUD | `/highlights/` | Create/read/update/delete highlights |
